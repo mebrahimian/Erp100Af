@@ -1,4 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using Erp100Af.Application.Common.Interfaces
+@using Erp100Af.Application.Common.Service
+@inject IClientPreferenceService ClientPreferenceService
+
+@inherits LayoutComponentBase
+
 <MudRTLProvider RightToLeft="@_isRTL">
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
@@ -10,14 +15,8 @@
         <MudText Typo="Typo.h5" Class="ml-3">Application</MudText>
         <MudSpacer />
         <LanguageSelector />
-        <MudMenu Icon="@Icons.Material.Filled.Language" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight">
-            <MudMenuItem >English</MudMenuItem>
-            <MudMenuItem >فارسی</MudMenuItem>
-        </MudMenu>
         <MudIconButton Icon="@(_isRTL ? @Icons.Material.Filled.FormatTextdirectionLToR : @Icons.Material.Filled.FormatTextdirectionRToL)" OnClick="ToggleRightToLeft" 
                        Color="Color.Inherit" />
-        
-
         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
@@ -42,32 +41,52 @@
     private bool _isDarkMode = true;
     private bool _isRTL = true;
     private MudTheme? _theme = null;
+    private bool _initialized = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_initialized)
+        {
+            await ClientPreferenceService.LoadAsync(); // اینجا localStorage خوانده میشه
+            _isDarkMode = ClientPreferenceService.Preference.IsDarkMode;
+            _isRTL = ClientPreferenceService.Preference.IsRtl;
+            _drawerOpen = ClientPreferenceService.Preference.IsDrawerOpen;
+            _initialized = true;
+            StateHasChanged(); // برای به‌روزرسانی UI
+        }
+    }
+    protected override async Task OnInitializedAsync()
     {
         base.OnInitialized();
-
+       // await ClientPreferenceService.LoadAsync();
         _theme = new()
         {
             PaletteLight = _lightPalette,
             PaletteDark = _darkPalette,
             LayoutProperties = new LayoutProperties()
         };
+        
     }
 
     private async Task ToggleRightToLeft()
     {
         _isRTL = !_isRTL;
-        
+        ClientPreferenceService.Preference.IsRtl = _isRTL;
+        await ClientPreferenceService.SaveAsync();
+
     }
-    private void DrawerToggle()
+    private async Task DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+        ClientPreferenceService.Preference.IsDrawerOpen = _drawerOpen;
+        await ClientPreferenceService.SaveAsync();
     }
 
-    private void DarkModeToggle()
+    private async Task DarkModeToggle()
     {
         _isDarkMode = !_isDarkMode;
+        ClientPreferenceService.Preference.IsDarkMode = _isDarkMode;
+        await ClientPreferenceService.SaveAsync();
     }
 
     private readonly PaletteLight _lightPalette = new()
@@ -119,6 +138,8 @@
         // TODO: این بخش در مرحله بعد پیاده‌سازی خواهد شد
         Console.WriteLine($"Language changed to: {culture}");
     }
+
+    
 }
 
 

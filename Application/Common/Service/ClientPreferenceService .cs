@@ -4,49 +4,32 @@ using Erp100Af.Application.Common.Interfaces;
 using Erp100Af.Application.Common.Dtos;
 using Erp100Af.Application.Common.Interfaces;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using System.Security.Cryptography.Xml;
 
-namespace Erp100Af.Services;
-
-public class ClientPreferenceService : IClientPreferenceService
+namespace Erp100Af.Application.Common.Service
 {
-    private const string StorageKey = "client-preferences";
-    private readonly ILocalStorageService _localStorage;
-
-    public string Language { get; set; } = "en-US";
-    public bool IsRtl { get; set; } = false;
-    public bool IsDarkMode { get; set; } = false;
-    public string Theme { get; set; } = "default";
-    public bool IsDrawerOpen { get; set; } = true;
-
-    public ClientPreferenceService(ILocalStorageService localStorage)
+    public class ClientPreferenceService : IClientPreferenceService
     {
-        _localStorage = localStorage;
-    }
+        private readonly ILocalStorageService _localStorage;
+        private const string Key = "clientPreference";
 
-    public async Task LoadAsync()
-    {
-        var preferences = await _localStorage.GetItemAsync<ClientPreferenceDto>(StorageKey);
-        if (preferences is not null)
+        public ClientPreferenceDto Preference { get; private set; } = new();
+
+        public ClientPreferenceService(ILocalStorageService localStorage)
         {
-            Language = preferences.Language;
-            IsRtl = preferences.IsRtl;
-            IsDarkMode = preferences.IsDarkMode;
-            Theme = preferences.Theme;
-            IsDrawerOpen = preferences.IsDrawerOpen;
+            _localStorage = localStorage;
+        }
+
+        public async Task LoadAsync()
+        {
+            Preference = await _localStorage.GetItemAsync<ClientPreferenceDto>(Key) ?? new ClientPreferenceDto();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _localStorage.SetItemAsync(Key, Preference);
         }
     }
 
-    public async Task SaveAsync()
-    {
-        var dto = new ClientPreferenceDto
-        {
-            Language = Language,
-            IsRtl = IsRtl,
-            IsDarkMode = IsDarkMode,
-            Theme = Theme,
-            IsDrawerOpen = IsDrawerOpen
-        };
-
-        await _localStorage.SetItemAsync(StorageKey, dto);
-    }
 }

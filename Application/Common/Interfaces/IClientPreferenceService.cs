@@ -1,15 +1,12 @@
-﻿namespace Erp100Af.Application.Common.Interfaces
+﻿using Erp100Af.Application.Common.Dtos;
+
+namespace Erp100Af.Application.Common.Interfaces
 {
     public interface IClientPreferenceService
     {
+        ClientPreferenceDto Preference { get; }
         Task LoadAsync();
         Task SaveAsync();
-
-        string Language { get; set; }
-        bool IsRtl { get; set; }
-        bool IsDarkMode { get; set; }
-        string Theme { get; set; }
-        bool IsDrawerOpen { get; set; }
     }
 
 }

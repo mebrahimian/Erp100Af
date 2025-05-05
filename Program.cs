@@ -3,6 +3,9 @@ using MudBlazor.Services;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Localization;
 using Erp100Af.Shared.Constants.Localization;
+using Blazored.LocalStorage;
+using Erp100Af.Application.Common.Interfaces;
+using Erp100Af.Application.Common.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 var supportedCultures = LocalizationConstants.SupportedLanguages
@@ -20,6 +23,8 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<IClientPreferenceService, ClientPreferenceService>();
 
 var app = builder.Build();
 app.UseRequestLocalization(localizationOptions);
