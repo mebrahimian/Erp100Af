@@ -13,6 +13,12 @@
 
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Folder Include="Application\Accounting\Dtos\" />
+    <Folder Include="Application\Accounting\Interfaces\" />
+    <Folder Include="Application\Inventory\Dtos\" />
+    <Folder Include="Application\Inventory\Interfaces\" />
+    <Folder Include="Application\Sales\Dtos\" />
+    <Folder Include="Application\Sales\Interfaces\" />
+    <Folder Include="Services\Setting\" />
   </ItemGroup>
 </Project>
