@@ -1,0 +1,67 @@
+﻿/* تعریف فونت‌های سفارشی */
+@font-face {
+    font-family: 'Vazir-UI';
+    src: url('../Fonts/Vazir-Black-UI.woff2') format('woff2'), url('../Fonts/Vazir-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vazir-UI';
+    src: url('../Fonts/Vazir-Bold-UI.woff2') format('woff2'), url('../Fonts/Vazir-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+
+/* تنظیم فونت پیش‌فرض برای کل سیستم */
+body {
+    font-family: 'Vazir-UI', sans-serif;
+    background-color: aqua !important;
+}
+
+/* استایل ساده برای تراز کردن المان‌ها */
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+/* فاصله‌دهی پایه */
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+/* کنترل اندازه فونت */
+.small {
+    font-size: 0.875rem;
+}
+
+.large {
+    font-size: 1.25rem;
+}
+
+/* تنظیم فونت عناوین */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Vazir-UI', 'Montserrat', sans-serif;
+    margin: 0.5rem 0;
+}

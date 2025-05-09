@@ -3,9 +3,11 @@
 @inject IClientPreferenceService ClientPreferenceService
 
 @inherits LayoutComponentBase
-
+<HeadContent>
+    <link href="~/Site.css" rel="stylesheet" />
+</HeadContent>
 <MudRTLProvider RightToLeft="@_isRTL">
-<MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
+<MudThemeProvider IsDarkMode="_isDarkMode" DefaultScrollbar="true" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />

@@ -6,6 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
@@ -30,6 +37,5 @@
     <Folder Include="Application\Inventory\Interfaces\" />
     <Folder Include="Application\Sales\Dtos\" />
     <Folder Include="Application\Sales\Interfaces\" />
-    <Folder Include="Services\Setting\" />
   </ItemGroup>
 </Project>
