@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using Erp100Af.Domain.Entities.Accounting;
 using Erp100Af.Domain.Entities;
 
-namespace DAL;
+namespace Erp100Af.Infrastructure.Persistence.App;
 
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options)
     : base(options) { }
-    public DbSet<Tenant> Tenants => Set<Tenant>();
     public DbSet<SegmentDefinition> SegmentDefinitions => Set<SegmentDefinition>();
     public DbSet<SegmentValue> SegmentValues => Set<SegmentValue>();
     public DbSet<CodeCombination> CodeCombinations => Set<CodeCombination>();

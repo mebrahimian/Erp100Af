@@ -1,8 +1,7 @@
-﻿using DAL;
-using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 
-namespace Erp100Af.DAL
+namespace Erp100Af.Infrastructure.Persistence.App
 {
     public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {

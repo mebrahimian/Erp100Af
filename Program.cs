@@ -6,6 +6,10 @@ using Erp100Af.Shared.Constants.Localization;
 using Blazored.LocalStorage;
 using Erp100Af.Application.Common.Interfaces;
 using Erp100Af.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Erp100Af.Infrastructure.Persistence.App;
+using Erp100Af.Infrastructure.Persistence.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 var supportedCultures = LocalizationConstants.SupportedLanguages
@@ -25,6 +29,18 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<IClientPreferenceService, ClientPreferenceService>();
+// Connection Data Base
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Connection Identity
+builder.Services.AddDbContext<IdentityDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.
+    Services.AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddEntityFrameworkStores<IdentityDbContext>()
+    .AddDefaultTokenProviders();
+
+
 
 var app = builder.Build();
 app.UseRequestLocalization(localizationOptions);

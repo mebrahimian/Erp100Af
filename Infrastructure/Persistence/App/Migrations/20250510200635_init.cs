@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Erp100Af.DAL.Migrations
+namespace Erp100Af.Infrastructure.Persistence.App.Migrations
 {
     /// <inheritdoc />
     public partial class init : Migration
@@ -65,29 +65,6 @@ namespace Erp100Af.DAL.Migrations
                         column: x => x.ParentSegmentId,
                         principalTable: "SegmentDefinitions",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tenants",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RemovedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsRemoved = table.Column<bool>(type: "bit", nullable: true),
-                    RemovedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tenants", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,9 +179,6 @@ namespace Erp100Af.DAL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CodeCombinationSegments");
-
-            migrationBuilder.DropTable(
-                name: "Tenants");
 
             migrationBuilder.DropTable(
                 name: "CodeCombinations");
