@@ -1,9 +1,10 @@
-﻿namespace Erp100Af.Domain.Entities.Accounting;
+﻿using MyBlazorApplication.Domain.Contracts;
 
-public class SegmentDefinition
+namespace Erp100Af.Domain.Entities.Accounting;
+
+public class SegmentDefinition : AuditableEntity<int>
 {
-    public int Id { get; set; }
-
+    public int TenantId { get; set; }
     public string Name { get; set; } = string.Empty;             // مثلا: "Account"
     public string Code { get; set; } = string.Empty;             // مثلا: "ACCT"
     public int Order { get; set; }                               // ترتیب در ترکیب کدها

@@ -1,6 +1,6 @@
 ﻿@using Erp100Af.Application.Common.Interfaces
-@using Erp100Af.Application.Common.Service
-@inject IClientPreferenceService ClientPreferenceService
+@using Erp100Af.Infrastructure.Services
+@inject IClientPreferenceService PreferenceService  
 
 @inherits LayoutComponentBase
 <HeadContent>
@@ -44,23 +44,28 @@
     private bool _isRTL = true;
     private MudTheme? _theme = null;
     private bool _initialized = false;
-
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && !_initialized)
         {
-            await ClientPreferenceService.LoadAsync(); // اینجا localStorage خوانده میشه
-            _isDarkMode = ClientPreferenceService.Preference.IsDarkMode;
-            _isRTL = ClientPreferenceService.Preference.IsRtl;
-            _drawerOpen = ClientPreferenceService.Preference.IsDrawerOpen;
+            await PreferenceService.LoadAsync(); // اینجا localStorage خوانده میشه
+            var prefs = PreferenceService.Preference;
+            _isDarkMode = PreferenceService.Preference.IsDarkMode;
+            _isRTL = PreferenceService.Preference.IsRtl;
+            _drawerOpen = PreferenceService.Preference.IsDrawerOpen;
             _initialized = true;
             StateHasChanged(); // برای به‌روزرسانی UI
         }
     }
+
     protected override async Task OnInitializedAsync()
     {
+        
         base.OnInitialized();
-       // await ClientPreferenceService.LoadAsync();
+       
+        // await PreferenceService.LoadAsync();
+        
         _theme = new()
         {
             PaletteLight = _lightPalette,
@@ -73,22 +78,22 @@
     private async Task ToggleRightToLeft()
     {
         _isRTL = !_isRTL;
-        ClientPreferenceService.Preference.IsRtl = _isRTL;
-        await ClientPreferenceService.SaveAsync();
+        PreferenceService.Preference.IsRtl = _isRTL;
+        await PreferenceService.SaveAsync();
 
     }
     private async Task DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
-        ClientPreferenceService.Preference.IsDrawerOpen = _drawerOpen;
-        await ClientPreferenceService.SaveAsync();
+        PreferenceService.Preference.IsDrawerOpen = _drawerOpen;
+        await PreferenceService.SaveAsync();
     }
 
     private async Task DarkModeToggle()
     {
         _isDarkMode = !_isDarkMode;
-        ClientPreferenceService.Preference.IsDarkMode = _isDarkMode;
-        await ClientPreferenceService.SaveAsync();
+        PreferenceService.Preference.IsDarkMode = _isDarkMode;
+        await PreferenceService.SaveAsync();
     }
 
     private readonly PaletteLight _lightPalette = new()
@@ -135,12 +140,7 @@
         true => Icons.Material.Rounded.AutoMode,
         false => Icons.Material.Outlined.DarkMode,
     };
-    private void ChangeLanguage(string culture)
-    {
-        // TODO: این بخش در مرحله بعد پیاده‌سازی خواهد شد
-        Console.WriteLine($"Language changed to: {culture}");
-    }
-
+    
     
 }
 

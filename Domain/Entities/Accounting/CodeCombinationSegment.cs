@@ -1,9 +1,10 @@
-﻿namespace Erp100Af.Domain.Entities.Accounting;
+﻿using MyBlazorApplication.Domain.Contracts;
 
-public class CodeCombinationSegment
+namespace Erp100Af.Domain.Entities.Accounting;
+
+public class CodeCombinationSegment : AuditableEntity<int>
 {
-    public int Id { get; set; }
-
+    public int TenantId { get; set; }
     public int CodeCombinationId { get; set; }
     public CodeCombination? CodeCombination { get; set; }
 

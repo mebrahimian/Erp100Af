@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Localization;
 using Erp100Af.Shared.Constants.Localization;
 using Blazored.LocalStorage;
 using Erp100Af.Application.Common.Interfaces;
-using Erp100Af.Application.Common.Service;
+using Erp100Af.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var supportedCultures = LocalizationConstants.SupportedLanguages

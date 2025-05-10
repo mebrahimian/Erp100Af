@@ -1,19 +1,16 @@
 ﻿using Blazored.LocalStorage;
 using Erp100Af.Application.Common.Dtos;
 using Erp100Af.Application.Common.Interfaces;
-using Erp100Af.Application.Common.Dtos;
-using Erp100Af.Application.Common.Interfaces;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using System.Security.Cryptography.Xml;
 
-namespace Erp100Af.Application.Common.Service
+namespace Erp100Af.Infrastructure.Services
 {
     public class ClientPreferenceService : IClientPreferenceService
     {
         private readonly ILocalStorageService _localStorage;
         private const string Key = "clientPreference";
-
         public ClientPreferenceDto Preference { get; private set; } = new();
 
         public ClientPreferenceService(ILocalStorageService localStorage)
@@ -23,7 +20,8 @@ namespace Erp100Af.Application.Common.Service
 
         public async Task LoadAsync()
         {
-            Preference = await _localStorage.GetItemAsync<ClientPreferenceDto>(Key) ?? new ClientPreferenceDto();
+            var loaded = await _localStorage.GetItemAsync<ClientPreferenceDto>(Key);
+            Preference = loaded ?? new ClientPreferenceDto();
         }
 
         public async Task SaveAsync()
@@ -31,5 +29,6 @@ namespace Erp100Af.Application.Common.Service
             await _localStorage.SetItemAsync(Key, Preference);
         }
     }
+
 
 }

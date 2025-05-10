@@ -1,4 +1,7 @@
-﻿@using Erp100Af.Shared.Constants.Localization
+﻿@using Erp100Af.Application.Common.Interfaces
+@using Erp100Af.Shared.Constants.Localization
+@inject IClientPreferenceService PreferenceService
+
 @inject Microsoft.Extensions.Localization.IStringLocalizer<MainLayout> localizer
 <MudMenu Icon="@Icons.Material.Outlined.Translate" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true" title="@localizer["Change Language"]">
     @foreach (var language in LocalizationConstants.SupportedLanguages)
@@ -9,22 +12,11 @@
 
 @code
 {
-   
-    private async Task ChangeLanguageAsync(string languageCode)
+ 
+    private async Task ChangeLanguageAsync(string culture)
     {
-        /*
-        var result = await _clientPreferenceManager.ChangeLanguageAsync(languageCode);
-        if (result.Succeeded)
-        {
-            _snackBar.Add(result.Messages[0], Severity.Success);
-            _navigationManager.NavigateTo(_navigationManager.Uri, forceLoad: true);
-            }
-        else
-        {
-            foreach (var error in result.Messages)
-            {
-                _snackBar.Add(error, Severity.Error);
-                }
-            }*/
+        PreferenceService.Preference.Language = culture;
+        await PreferenceService.SaveAsync();
     }
+
 }
