@@ -12,7 +12,7 @@ namespace MyBlazorApplication.Domain.Contracts
 
         DateTime CreatedOn { get; set; }
 
-        string LastModifiedBy { get; set; }
+        string? LastModifiedBy { get; set; }
 
         DateTime? LastModifiedOn { get; set; }
         public DateTime? RemovedTime { get; set; }

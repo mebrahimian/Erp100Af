@@ -1,0 +1,55 @@
+﻿@page "/auth/login"
+
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+
+<MudGrid Class="h-screen items-center justify-center">
+    <MudItem xs="12" md="5">
+        <MudPaper Class="p-6 rounded-2xl shadow-xl">
+            <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">ورود به سیستم</MudText>
+
+            <MudTextField @bind-Value="_tenant" Label="نام شرکت (Tenant)" Required="true" />
+            <MudTextField @bind-Value="_email" Label="ایمیل" Required="true" />
+            <MudTextField @bind-Value="_password" Label="رمز عبور" InputType="InputType.Password" Required="true" />
+
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-4 w-full" OnClick="LoginAsync">
+                ورود
+            </MudButton>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" md="5">
+        <MudPaper Class="p-6 rounded-2xl bg-blue-50 dark:bg-slate-800">
+            <MudText Typo="Typo.h6" Class="mb-2">💼 ؟ (Erp 100af) چرا </MudText>
+            <MudList T="string" Dense="true">
+                <MudListItem>✔ با چند کاربر (Tenant) ساخت شرکت مستقل</MudListItem>
+                <MudListItem>✔ حسابداری آماده (COA) شروع با </MudListItem>
+                <MudListItem>✔ دلخواه برای شرکت (COA) قابلیت ساخت</MudListItem>
+                <MudListItem>✔ رابط کاربری ساده، واکنش‌گرا و چندزبانه</MudListItem>
+            </MudList>
+            <MudDivider Class="my-3" />
+            <MudText Class="mb-2">هنوز شرکت نداری؟ همین حالا شروع کن!</MudText>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo("/register"))">
+                ساخت شرکت جدید
+            </MudButton>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private string _tenant;
+    private string _email;
+    private string _password;
+
+    private async Task LoginAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_email) || string.IsNullOrWhiteSpace(_password))
+        {
+            Snackbar.Add("ایمیل و رمز عبور را وارد کنید.", Severity.Warning);
+            return;
+        }
+
+        // اینجا به زودی کد لاگین واقعی اضافه می‌کنیم
+        Snackbar.Add("ورود موفق! (شبیه‌سازی)", Severity.Success);
+    }
+}

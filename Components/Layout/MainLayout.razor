@@ -1,5 +1,6 @@
 ﻿@using Erp100Af.Application.Common.Interfaces
 @using Erp100Af.Infrastructure.Services
+
 @inject IClientPreferenceService PreferenceService  
 
 @inherits LayoutComponentBase
@@ -7,7 +8,7 @@
     <link href="~/Site.css" rel="stylesheet" />
 </HeadContent>
 <MudRTLProvider RightToLeft="@_isRTL">
-<MudThemeProvider IsDarkMode="_isDarkMode" DefaultScrollbar="true" />
+<MudThemeProvider IsDarkMode="_isDarkMode" DefaultScrollbar="true" Theme="myTheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -141,7 +142,20 @@
         false => Icons.Material.Outlined.DarkMode,
     };
     
-    
+    private readonly MudTheme myTheme = new MudTheme()
+        {
+            Typography = new Typography
+            {
+                Default = new DefaultTypography
+                {
+                    FontFamily = new[] { "Vazir UI", "sans-serif" }
+                }
+            }
+        };
+
+
+
+
 }
 
 

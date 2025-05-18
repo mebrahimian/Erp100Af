@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Erp100Af.Infrastructure.Persistence.App;
 using Erp100Af.Infrastructure.Persistence.Identity;
+using Erp100Af.Domain.Entities.Identity;
+using Erp100Af.Infrastructure.Persistence.Seeder;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var supportedCultures = LocalizationConstants.SupportedLanguages
@@ -33,14 +36,24 @@ builder.Services.AddScoped<IClientPreferenceService, ClientPreferenceService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Connection Identity
-builder.Services.AddDbContext<IdentityDbContext>(options =>
+builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.
-    Services.AddIdentity<ApplicationUser, ApplicationRole>()
-    .AddEntityFrameworkStores<IdentityDbContext>()
+
+// „—»Êÿ »Â identity 
+/////////////////////
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddEntityFrameworkStores<AppIdentityDbContext>()
     .AddDefaultTokenProviders();
+////////////////////
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/auth/login";
+    
+});
 
 
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 app.UseRequestLocalization(localizationOptions);
@@ -61,4 +74,13 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
+    var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+
+    await IdentitySeeder.SeedAsync(userManager,roleManager, identityContext);
+}
 app.Run();
